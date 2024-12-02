@@ -12,9 +12,9 @@ namespace coffee_shop_mvc.Controllers
 {
     public class ProductsController : Controller
     {
-        private readonly CaffeeShopContext _context;
+        private readonly CoffeeShopContext _context;
 
-        public ProductsController(CaffeeShopContext context)
+        public ProductsController(CoffeeShopContext context)
         {
             _context = context;
         }

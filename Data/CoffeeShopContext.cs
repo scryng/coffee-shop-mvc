@@ -7,9 +7,9 @@ using coffee_shop_mvc.Models;
 
 namespace coffee_shop_mvc.Data
 {
-    public class CaffeeShopContext : DbContext
+    public class CoffeeShopContext : DbContext
     {
-        public CaffeeShopContext (DbContextOptions<CaffeeShopContext> options)
+        public CoffeeShopContext (DbContextOptions<CoffeeShopContext> options)
             : base(options)
         {
         }
