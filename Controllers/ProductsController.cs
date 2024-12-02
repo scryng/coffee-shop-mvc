@@ -20,12 +20,17 @@ namespace coffee_shop_mvc.Controllers
         }
 
         // GET: Products
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string productCategory,string searchString)
         {
             if (_context.Product == null)
             {
                 return Problem("Entity set 'CoffeeShopContext.Product'  is null.");
             }
+
+            // Use LINK to get list of genres.
+            IQueryable<string> categoryQuery = from p in _context.Product
+                                               orderby p.Category
+                                               select p.Category;
 
                 var products =from p in _context.Product
                                 select p;
@@ -35,7 +40,18 @@ namespace coffee_shop_mvc.Controllers
                 products = products.Where(s => s.Name!.ToUpper().Contains(searchString.ToUpper()));
             }
 
-            return View(await products.ToListAsync());
+            if (!string.IsNullOrEmpty(productCategory))
+            {
+                products = products.Where(x => x.Category == productCategory);
+            }
+
+            var productCategoryVM = new ProductCategoryViewModel
+            {
+                Categories = new SelectList(await categoryQuery.Distinct().ToListAsync()),
+                Products = await products.ToListAsync()
+            };
+
+            return View(productCategoryVM);
         }
 
         // GET: Products/Details/5

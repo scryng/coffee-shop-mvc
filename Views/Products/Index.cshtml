@@ -1,10 +1,10 @@
-@model IEnumerable<coffee_shop_mvc.Models.Product>
+@model ProductCategoryViewModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Stock Manager";
 }
 
-<h1>Index</h1>
+<h1>Stock Manager - Cafeteria</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -12,6 +12,10 @@
 
 <form asp-controller="Products" asp-action="Index" method="get">
     <p>
+        <select asp-for="ProductCategory" asp-items="Model.Categories">
+            <option value="">All</option>
+        </select>
+
         <label>Name: <input type="text" name="searchString" /></label>
         <input type="submit" value="Filter" />
     </p>
@@ -21,22 +25,22 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                @Html.DisplayNameFor(model => model.Products![0].Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Quantity)
+                @Html.DisplayNameFor(model => model.Products![0].Quantity)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Category)
+                @Html.DisplayNameFor(model => model.Products![0].Category)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Price)
+                @Html.DisplayNameFor(model => model.Products![0].Price)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.Products!) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
