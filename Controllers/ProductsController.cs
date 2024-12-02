@@ -6,15 +6,16 @@ namespace Cafeteria.Controllers;
 public class ProductsController : Controller
 {
     // 
-	    // GET: /Products/
+    // GET: /Products/
     public string Index()
     {
         return "This is my default action...";
     }
     // 
     // GET: /Products/Welcome/ 
-    public string Welcome()
+    // Requires using System.Text.Encodings.Web;
+    public string Welcome(string name, int numTimes = 1)
     {
-        return "This is the Welcome action method...";
+    return HtmlEncoder.Default.Encode($"Hello {name}, NumTimes is: {numTimes}");
     }
 }
