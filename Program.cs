@@ -1,4 +1,9 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using coffee_shop_mvc.Data;
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<CaffeeShopContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("CaffeeShopContext") ?? throw new InvalidOperationException("Connection string 'CaffeeShopContext' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
