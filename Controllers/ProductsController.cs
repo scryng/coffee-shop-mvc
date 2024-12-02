@@ -20,9 +20,22 @@ namespace coffee_shop_mvc.Controllers
         }
 
         // GET: Products
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.Product.ToListAsync());
+            if (_context.Product == null)
+            {
+                return Problem("Entity set 'CoffeeShopContext.Product'  is null.");
+            }
+
+                var products =from p in _context.Product
+                                select p;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                products = products.Where(s => s.Name!.ToUpper().Contains(searchString.ToUpper()));
+            }
+
+            return View(await products.ToListAsync());
         }
 
         // GET: Products/Details/5
