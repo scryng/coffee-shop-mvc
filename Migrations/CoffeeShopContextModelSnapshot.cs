@@ -8,8 +8,8 @@ using coffee_shop_mvc.Data;
 
 namespace coffee_shop_mvc.Migrations
 {
-    [DbContext(typeof(CaffeeShopContext))]
-    partial class CaffeeShopContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(CoffeeShopContext))]
+    partial class CoffeeShopContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
