@@ -9,7 +9,7 @@ using coffee_shop_mvc.Data;
 
 namespace coffee_shop_mvc.Migrations
 {
-    [DbContext(typeof(CaffeeShopContext))]
+    [DbContext(typeof(CoffeeShopContext))]
     [Migration("20241202192118_InitialCreate")]
     partial class InitialCreate
     {
