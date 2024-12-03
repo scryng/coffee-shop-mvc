@@ -15,5 +15,7 @@ namespace coffee_shop_mvc.Data
         }
 
         public DbSet<coffee_shop_mvc.Models.Product> Product { get; set; } = default!;
+        public DbSet<coffee_shop_mvc.Models.Order> Order { get; set; } = default!;
+        public DbSet<coffee_shop_mvc.Models.OrderProduct> OrderProduct { get; set; } = default!;
     }
 }
