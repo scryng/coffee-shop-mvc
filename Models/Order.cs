@@ -14,6 +14,6 @@ public class Order
     [Range(0, double.MaxValue)]
     public decimal TotalPrice { get; set; }
 
-    // Relação um para muitos com OrderItem
-    public List<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+    // Relação um para muitos com OrderProduct
+    public List<OrderProduct> OrderProducts { get; set; } = new List<OrderProduct>();
 }
