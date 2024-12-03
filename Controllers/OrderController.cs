@@ -43,10 +43,81 @@ namespace coffee_shop_mvc.Controllers
             return View(order);
         }
 
+        // POST: Order/AddProduct
+        [HttpPost]
+        public async Task<ActionResult> AddProduct (OrderCreateViewModel viewModel)
+        { 
+            // Recupera todos os produtos do BD
+            var products = await _context.Product.ToListAsync();
+            // Seleciona apenas os produtos cujo atributo Quantidade é diferente de zero
+            products = products.Where(p => p.Quantity!=0).ToList();
+            
+            // Valida se a consulta ao banco teve sucesso
+            if(products==null)
+                return NotFound();
+
+            // Valida se o produto selecionado pelo usuário no dropdown foi encontrado no BD
+            Product? stockCheck = products.Find(p=>p.Id==viewModel.SelectedProductId);
+            if(stockCheck==null)
+                return NotFound();
+            
+            // Verifica se a quantidade solicitada no produto e suficiente no estoque
+            if(stockCheck.Quantity >= viewModel.Quantity)
+            {
+                TempData[viewModel.SelectedProductId.ToString()]=viewModel.Quantity;
+            }else
+            {
+                viewModel.Message = "There are not enough products in stock.";
+            }
+            
+            viewModel.TotalPrice = 0;
+
+            // Salva os dados do produto selecionado em TempData para a próxima seção
+            foreach (var key in TempData.Keys)
+            {
+                TempData.Keep(key);
+                
+                Product ?p = products.Find(p => p.Id == int.Parse(key));
+                string ?q = TempData[key]?.ToString();
+                if (p != null && q!=null)
+                    viewModel.TotalPrice += p.Price * int.Parse(q);
+            }
+
+            // Reabastece a lista de produtos para o dropdown
+            viewModel.ProductsSelectList = products.Select(p => new SelectListItem 
+                {
+                    Value = p.Id.ToString(),
+                    Text = p.Name
+                });
+            viewModel.Products = products;
+            
+            // Retorna a ViewModel para View/Order/Create
+            return View("Create",viewModel);
+        }
+
         // GET: Order/Create
-        public IActionResult Create()
-        {
-            return View();
+        public async Task<IActionResult> Create()
+        {   
+            // Recupera todos os produtos do BD
+            var products = await _context.Product.ToListAsync();
+            // Seleciona apenas os produtos cujo atributo Quantidade é diferente de zero
+            products = products.Where(p => p.Quantity!=0).ToList();
+
+                // Instancia uma nova ViewModel
+            OrderCreateViewModel viewModel = new OrderCreateViewModel
+            {
+                ProductsSelectList = products.Select(p => new SelectListItem 
+                {
+                    Value = p.Id.ToString(),
+                    Text = p.Name
+                }),
+                Products = products
+            };
+
+                // Limpa os dados temporários
+            TempData.Clear();
+            
+            return View(viewModel);
         }
 
         // POST: Order/Create
