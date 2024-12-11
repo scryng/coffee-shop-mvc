@@ -1,10 +1,10 @@
 @model IEnumerable<coffee_shop_mvc.Models.Order>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Order history";
 }
 
-<h1>Index</h1>
+<h1>Order history</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -13,10 +13,13 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.TimeStamp)
+                Id
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TotalPrice)
+                Order Date
+            </th>
+            <th>
+                Total Price
             </th>
             <th></th>
         </tr>
@@ -24,6 +27,9 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.TimeStamp)
             </td>
