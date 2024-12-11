@@ -1,6 +1,5 @@
+using coffee_shop_mvc.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Collections.Generic;
-namespace coffee_shop_mvc.Models;
 
 public class OrderCreateViewModel
 { 
