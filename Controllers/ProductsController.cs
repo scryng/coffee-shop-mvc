@@ -97,10 +97,14 @@ namespace coffee_shop_mvc.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(product);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (product.Price > 0 && product.Quantity > 0)
+                {
+                    _context.Add(product);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
             }
+
             return View(product);
         }
 
@@ -137,23 +141,26 @@ namespace coffee_shop_mvc.Controllers
 
             if (ModelState.IsValid)
             {
-                try
+                if (product.Price > 0 && product.Quantity > 0)
                 {
-                    _context.Update(product);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProductExists(product.Id))
+                    try
                     {
-                        return NotFound();
+                        _context.Update(product);
+                        await _context.SaveChangesAsync();
                     }
-                    else
+                    catch (DbUpdateConcurrencyException)
                     {
-                        throw;
+                        if (!ProductExists(product.Id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
                     }
+                    return RedirectToAction(nameof(Index));
                 }
-                return RedirectToAction(nameof(Index));
             }
             return View(product);
         }
